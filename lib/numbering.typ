@@ -28,12 +28,12 @@
 #let _bn-session = state("better-numbering-session", 0)
 
 #let _bn-cfg = state("better-numbering-config", (
-  fig_depth: 2,
-  fig_outline: "1.1",
-  fig_color: none,
-  eq_depth: 2,
-  eq_outline: "1.1",
-  eq_color: none,
+  fig-depth: 2,
+  fig-outline: "1.1",
+  fig-color: none,
+  eq-depth: 2,
+  eq-outline: "1.1",
+  eq-color: none,
 ))
 
 #let _resolve-supplement(r, el) = {
@@ -57,16 +57,16 @@
 
     if el.func() == math.equation {
       let n = _last-int(counter(math.equation).at(loc))
-      let inner = generate-counter(cfg.eq_depth, n, outline: cfg.eq_outline, loc: loc)
-      return link(loc, _paint("(" + inner + ")", cfg.eq_color))
+      let inner = generate-counter(cfg.eq-depth, n, outline: cfg.eq-outline, loc: loc)
+      return link(loc, _paint("(" + inner + ")", cfg.eq-color))
     }
 
     if el.func() == figure {
       let n = _last-int(counter(figure.where(kind: el.kind)).at(loc))
-      let num = generate-counter(cfg.fig_depth, n, outline: cfg.fig_outline, loc: loc)
+      let num = generate-counter(cfg.fig-depth, n, outline: cfg.fig-outline, loc: loc)
       let sup = _resolve-supplement(r, el)
-      return link(loc, if sup == [] { _paint(num, cfg.fig_color) } else {
-        _paintc([#sup #h(0.15em) #num], cfg.fig_color)
+      return link(loc, if sup == [] { _paint(num, cfg.fig-color) } else {
+        _paintc([#sup #h(0.15em) #num], cfg.fig-color)
       })
     }
     r
@@ -105,12 +105,12 @@
 
   // Update config timeline from this point onward.
   _bn-cfg.update((
-    fig_depth: fig-depth,
-    fig_outline: fig-outline,
-    fig_color: fig-color,
-    eq_depth: eq-depth,
-    eq_outline: eq-outline,
-    eq_color: eq-color,
+    fig-depth: fig-depth,
+    fig-outline: fig-outline,
+    fig-color: fig-color,
+    eq-depth: eq-depth,
+    eq-outline: eq-outline,
+    eq-color: eq-color,
   ))
 
   show: heading-counters.with(
