@@ -2,9 +2,11 @@
 
 `better-numbering` is a typst package for improved figure/table/equation numbering.
 
+This package primarily modifies the numbering of figures and equations to automatically update based on sections and reset counters when entering new sections. Additionally, it allows users to customize the depth and format of numbering. It supports element types such as `image`, `table`, `raw`, `math.equation`, and custom `figure(kind: ...)`.
+
 Chapter/section-aware numbering utilities for Typst (Typst ≥ 0.13).
 
-This package provides consistent figure/table/raw + equation numbering with:
+This package provides consistent figure/table/raw + equation + custom figure.kind numbering with:
 - configurable prefix depth,
 - correct cross-chapter references,
 - and safe “re-installation” (you can apply the package multiple times in one document with different styles).
