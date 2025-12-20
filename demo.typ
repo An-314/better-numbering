@@ -9,6 +9,10 @@
 
 This demo showcases the core capabilities of `better-numbering`: section/subsection-based figure/equation numbering, consistent cross-section references, and the ability to reconfigure numbering styles in different parts of the same document.
 
+该包主要更改了图表和公式的编号方式，使其能够根据章节自动更新编号，并在进入新章节时重置计数器。此外，它还允许用户自定义编号的层级深度和格式。支持`image`、`table`、`raw`、`math.equation`以及自定义的`figure(kind: ...)`等元素类型。
+
+This package primarily modifies the numbering of figures and equations to automatically update based on sections and reset counters when entering new sections. Additionally, it allows users to customize the depth and format of numbering. It supports element types such as `image`, `table`, `raw`, `math.equation`, and custom `figure(kind: ...)`.
+
 你可以像这样引入该包并启用增强编号功能：
 
 Import this package and enable better numbering with:
@@ -21,8 +25,6 @@ Import this package and enable better numbering with:
 the default settings are:
 ```typ
 #show: better-numbering.with(
-  counter-depth: 2,
-  matheq-depth: 2,
   offset: 0,
   reset-figure-kinds: (image, table, raw),
   fig-depth: 2,
@@ -199,10 +201,8 @@ The `label` and `ref` functionalities also work correctly, allowing you to refer
 
 You can directly re-apply to change the numbering style, for example, to create an *appendix*:
 #show: better-numbering.with(
-  counter-depth: 3,
-  matheq-depth: 3,
   offset: 0,
-  reset-figure-kinds: (image, table, raw),
+  reset-figure-kinds: (image, table, raw, "custom-kind"),
   fig-depth: 3,
   fig-outline: "I.a.1",
   fig-color: blue,
@@ -212,10 +212,8 @@ You can directly re-apply to change the numbering style, for example, to create 
 )
 ```typ
 #show: better-numbering.with(
-  counter-depth: 3,
-  matheq-depth: 3,
   offset: 0,
-  reset-figure-kinds: (image, table, raw),
+  reset-figure-kinds: (image, table, raw, "custom-kind"),
   fig-depth: 3,
   fig-outline: "I.a.1",
   fig-color: blue,
@@ -277,3 +275,27 @@ You can directly generate a list of figures:
 会排除掉`outlined: false`的图表，但会包含`numbering: none`但`outlined: true(default)`的图表。
 
 Figures with `outlined: false` will be excluded, but those with `numbering: none` but `outlined: true (default)` will be included.
+
+此外，我们也可以为自定义的`figure(kind: ...)`类型启用编号功能：
+
+Additionally, we can also enable numbering for custom `figure(kind: ...)` types:
+
+#figure(
+  placeholder-img(),
+  caption: [This is a placeholder image],
+  kind: "custom-kind",
+  supplement: [CUSTOM KIND],
+)<custom-fig>
+
+```typst
+#figure(
+  placeholder-img(),
+  caption: [This is a placeholder image],
+  kind: "custom-kind",
+  supplement: [CUSTOM KIND],
+)<custom-fig>
+```
+
+同样也可以引用它：`@custom-fig:`@custom-fig 。
+
+It can also be referenced: `@custom-fig:`@custom-fig .
