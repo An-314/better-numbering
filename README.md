@@ -17,8 +17,8 @@ This package provides consistent figure/table/raw + equation + custom figure.kin
 #import "@preview/better-numbering:0.0.1": *
 
 #show: better-numbering.with(
-  counter-depth: 2,
-  matheq-depth: 2,
+  fig-depth: 2,
+  eq-depth: 2,
   fig-outline: "1.1",
   eq-outline: "1.1",
 )
@@ -28,12 +28,16 @@ Then use normal `#figure(...) <label>` and `@label` references.
 
 ## Features
 
-### 1) Configurable display depth
+### 1) Configurable display properties
 
-* `counter-depth`: heading prefix depth used for figures (and reset behavior)
-* `matheq-depth`: heading prefix depth used for equations (and reset behavior)
-* `fig-depth`: figure prefix depth to display (defaults to `counter-depth`)
-* `eq-depth`: equation prefix depth to display (defaults to `matheq-depth`)
+* `fig-outline`: figure numbering pattern
+* `fig-depth`: figure prefix depth to display 
+* `fig-color`: figure prefix color
+* `eq-outline`: equation numbering pattern
+* `eq-depth`: equation prefix depth to display 
+* `eq-color`: equation prefix color
+* `reset-figure-kind`: list of figure kinds to reset numbering on new sections, e.g. `(image, table, raw, "custom-kind")`
+* `offset`: heading level offset
 
 ### 2) Strict numbering (location-correct)
 
@@ -54,7 +58,6 @@ Example:
 
 ```typst
 #show: better-numbering.with(
-  counter-depth: 3,
   fig-depth: 3,
   fig-outline: "I.a.1",
 )
