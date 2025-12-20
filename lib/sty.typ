@@ -26,6 +26,7 @@
     numbering: n => "(" + generate-counter(counter-depth, n, outline: eq-outline) + ")",
   )
   set math.equation(supplement: [])
+  show label("-"): set math.equation(numbering: none)
   body
 }
 
@@ -35,29 +36,34 @@
   offset: 0,
   reset-figure-kinds: (image, table, raw),
   init: "rebase",
-  active: none, // active(loc)->bool
+  active: none,
   body,
 ) = {
-  let is-active = loc => active == none or active(loc)
+  let is-active = () => active == none or active()
 
-  context {
-    if not is-active(here()) {
-      // no-op
-    } else if init == "reset" {
-      chap-counter.update((x, ..y) => (offset, 0, 0))
-    } else {
-      // rebase
-      let h = counter(heading).get()
-      chap-counter.update((a, ..b) => (
-        h.at(0, default: 0) + offset,
-        h.at(1, default: 0),
-        h.at(2, default: 0),
-      ))
+  hide(context {
+    if is-active() {
+      if init == "reset" {
+        chap-counter.update((..) => (offset, 0, 0))
+      } else if init == "rebase" {
+        let h = counter(heading).get()
+        chap-counter.update((..) => (
+          h.at(0, default: 0) + offset,
+          h.at(1, default: 0),
+          h.at(2, default: 0),
+        ))
+      } else {
+        // "keep": no-op
+      }
+
       for k in reset-figure-kinds { counter(figure.where(kind: k)).update(0) }
+      counter(math.equation).update(0)
     }
-  }
+    ""
+  })
+
   show heading.where(level: 1, outlined: true): it => context {
-    if not is-active(it.location()) { it } else {
+    if not is-active() { it } else {
       if matheq-depth == 2 or matheq-depth == 3 { counter(math.equation).update(0) }
       if counter-depth == 2 or counter-depth == 3 {
         for k in reset-figure-kinds { counter(figure.where(kind: k)).update(0) }
@@ -68,7 +74,7 @@
     }
   }
   show heading.where(level: 2, outlined: true): it => context {
-    if not is-active(it.location()) { it } else {
+    if not is-active() { it } else {
       if matheq-depth == 3 { counter(math.equation).update(0) }
       if counter-depth == 3 {
         for k in reset-figure-kinds { counter(figure.where(kind: k)).update(0) }
@@ -79,7 +85,7 @@
     }
   }
   show heading.where(level: 3, outlined: true): it => context {
-    if not is-active(it.location()) { it } else {
+    if not is-active() { it } else {
       chap-counter.step(level: 3)
       it
     }

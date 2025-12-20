@@ -25,7 +25,7 @@
 
 #let _bn-epoch = state("better-numbering-epoch", 0)
 
-#let _bn-session = state("better-numbering-session", 0)
+#let _bn-guard = state("better-numbering-guard", 0)
 
 #let _bn-cfg = state("better-numbering-config", (
   fig-depth: 2,
@@ -77,16 +77,14 @@
 // One-stop wrapper (use as a show rule).
 #let better-numbering(
   // Heading backbone
-  counter-depth: 2,
-  matheq-depth: 2,
   offset: 0,
   reset-figure-kinds: (image, table, raw),
   init: "rebase",
   // Formatting
-  fig-depth: none,
+  fig-depth: 2,
   fig-outline: "1.1",
   fig-color: none,
-  eq-depth: none,
+  eq-depth: 2,
   eq-outline: "1.1",
   eq-color: none,
   body,
@@ -94,14 +92,24 @@
   // New session from this point onward.
   let session = _bn-epoch.get() + 1
   _bn-epoch.update(session)
-  _bn-session.update(session)
 
-  // Only the newest session at `loc` should act there.
-  let active = loc => _bn-session.at(loc) == session
+  // Anchor (guard + cfg) into the document flow, otherwise the updates can be skipped
+  // during iterative layout / introspection passes.
+  hide(context {
+    _bn-guard.update(session)
+    _bn-cfg.update((
+      fig_depth: fig-depth,
+      fig_outline: fig-outline,
+      fig_color: fig-color,
+      eq_depth: eq-depth,
+      eq_outline: eq-outline,
+      eq_color: eq-color,
+    ))
+    ""
+  })
 
-  // Defaults
-  let fig-depth = if fig-depth == none { counter-depth } else { fig-depth }
-  let eq-depth = if eq-depth == none { matheq-depth } else { eq-depth }
+  // Only the newest session at the current location should act.
+  let active = () => _bn-guard.get() == session
 
   // Update config timeline from this point onward.
   _bn-cfg.update((
@@ -114,12 +122,12 @@
   ))
 
   show: heading-counters.with(
-    counter-depth: counter-depth,
-    matheq-depth: matheq-depth,
+    counter-depth: fig-depth,
+    matheq-depth: eq-depth,
     offset: offset,
     reset-figure-kinds: reset-figure-kinds,
-    init: init,
     active: active,
+    init: init,
   )
 
   show: styfigure.with(
