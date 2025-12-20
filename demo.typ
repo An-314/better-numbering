@@ -261,7 +261,7 @@ You can directly generate a list of figures:
 ```typst
 #outline(
   title: [List of Figures],
-  target: figure.where(kind: image),
+  target: figure.where(kind: image, outlined: true,),
 )
 ```
 #outline(
