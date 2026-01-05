@@ -1,1 +1,1 @@
-#import "numbering.typ": better-numbering
+#import "numbering.typ": ratchet
