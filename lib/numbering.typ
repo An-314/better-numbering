@@ -8,7 +8,7 @@
 #let freeze-counter-number(counter-name, depth: 2, outline: "1.1", loc: none) = context {
   let loc = if loc == none { here() } else { loc }
   let n = _last-int(counter(counter-name).at(loc))
-  generate-counter(depth, n, outline: outline, loc: loc)
+  generate-counter(depth, n, outline, loc: loc)
 }
 
 #let install-counter-resets(counter-names, depth: 2, body) = {
@@ -32,7 +32,7 @@
   fig-outline: "1.1",
   fig-color: none,
   eq-depth: 2,
-  eq-outline: "1.1",
+  eq-outline: "(1.1)",
   eq-color: none,
 ))
 
@@ -57,13 +57,13 @@
 
     if el.func() == math.equation {
       let n = _last-int(counter(math.equation).at(loc))
-      let inner = generate-counter(cfg.eq-depth, n, outline: cfg.eq-outline, loc: loc)
-      return link(loc, _paint("(" + inner + ")", cfg.eq-color))
+      let num = generate-counter(cfg.eq-depth, n, cfg.eq-outline, loc: loc)
+      return link(loc, _paint(num, cfg.eq-color))
     }
 
     if el.func() == figure {
       let n = _last-int(counter(figure.where(kind: el.kind)).at(loc))
-      let num = generate-counter(cfg.fig-depth, n, outline: cfg.fig-outline, loc: loc)
+      let num = generate-counter(cfg.fig-depth, n, cfg.fig-outline, loc: loc)
       let sup = _resolve-supplement(r, el)
       return link(loc, if sup == [] { _paint(num, cfg.fig-color) } else {
         _paintc([#sup #h(0.15em) #num], cfg.fig-color)
@@ -93,14 +93,14 @@
     // Fix equations inside outlines (equation list).
     if el.func() == math.equation {
       let n = _last-int(counter(math.equation).at(loc))
-      let inner = generate-counter(cfg.eq-depth, n, outline: cfg.eq-outline, loc: loc)
-      let prefix = _paint("(" + inner + ")", cfg.eq-color)
+      let num = generate-counter(cfg.eq-depth, n, outline: cfg.eq-outline, loc: loc)
+      let prefix = _paint(num, cfg.eq-color)
       return link(loc, it.indented(prefix, it.inner()))
     }
     // Fix figures inside outlines (list of figures / tables).
     if el.func() == figure {
       let n = _last-int(counter(figure.where(kind: el.kind)).at(loc))
-      let num = generate-counter(cfg.fig-depth, n, outline: cfg.fig-outline, loc: loc)
+      let num = generate-counter(cfg.fig-depth, n, cfg.fig-outline, loc: loc)
       // Mimic outline.entry.prefix(): add supplement for figures.
       let sup = [#el.supplement]
       let prefix = if sup == [] { _paint(num, cfg.fig-color) } else {
@@ -126,7 +126,7 @@
   fig-outline: "1.1",
   fig-color: none,
   eq-depth: 2,
-  eq-outline: "1.1",
+  eq-outline: "(1.1)",
   eq-color: none,
   body,
 ) = context {

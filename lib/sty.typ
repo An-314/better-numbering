@@ -9,7 +9,7 @@
   let sels = figure-kinds.map(k => figure.where(kind: k))
   if sels.len() > 0 {
     show selector.or(..sels): set figure(
-      numbering: n => generate-counter(counter-depth, n, outline: fig-outline),
+      numbering: n => generate-counter(counter-depth, n, fig-outline),
     )
     body
   } else {
@@ -19,11 +19,11 @@
 
 #let stymatheq(
   counter-depth: 2,
-  eq-outline: "1.1",
+  eq-outline: "(1.1)",
   body,
 ) = {
   set math.equation(
-    numbering: n => "(" + generate-counter(counter-depth, n, outline: eq-outline) + ")",
+    numbering: n => generate-counter(counter-depth, n, eq-outline),
   )
   set math.equation(supplement: [])
   show label("-"): set math.equation(numbering: none)
