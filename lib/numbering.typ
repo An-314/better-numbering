@@ -146,7 +146,6 @@
       eq-outline: eq-outline,
       eq-color: eq-color,
     ))
-    ""
   })
 
   // Only the newest session at the current location should act.
