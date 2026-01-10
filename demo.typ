@@ -1,4 +1,5 @@
-#import "lib/main.typ": *
+#import "@preview/ratchet:0.0.2": ratchet
+
 #show: ratchet.with(
   fig-outline: "1.1",
 )
@@ -17,7 +18,7 @@ This package primarily modifies the numbering of figures and equations to automa
 
 Import this package and enable better numbering with:
 ```typ
-#import "@preview/ratchet:0.0.1": *
+#import "@preview/ratchet:0.0.2": *
 #show: ratchet
 ```
 默认的配置如下：
@@ -31,7 +32,7 @@ the default settings are:
   fig-outline: "1.1",
   fig-color: none,
   eq-depth: 2,
-  eq-outline: "1.1",
+  eq-outline: "(1.1)",
   eq-color: none,
 )
 ```
@@ -92,6 +93,9 @@ As you can see, all figure and equation numbers are automatically updated based 
   placeholder-img(),
   caption: [This is a placeholder image],
 )
+$
+  nabla^2 = (partial^2)/(partial x^2) + (partial^2)/(partial y^2) + (partial^2)/(partial z^2)
+$
 
 == subsection
 
@@ -200,6 +204,11 @@ The `label` and `ref` functionalities also work correctly, allowing you to refer
 你可以直接重新引用以改变编号样式，例如创建一个*附录*：
 
 You can directly re-apply to change the numbering style, for example, to create an *appendix*:
+
+如果你希望加入自定义的编号样式，可以像下面在`reset-figure-kinds`中配置，如`custom-kind`类型的图表：
+
+if you want to add custom numbering styles, you can configure it as below in `reset-figure-kinds`, such as for `custom-kind` type figures:
+
 #show: ratchet.with(
   offset: 0,
   reset-figure-kinds: (image, table, raw, "custom-kind"),
@@ -207,7 +216,7 @@ You can directly re-apply to change the numbering style, for example, to create 
   fig-outline: "I.a.1",
   fig-color: blue,
   eq-depth: 3,
-  eq-outline: "I.a.1",
+  eq-outline: "(I.a.1)",
   eq-color: red,
 )
 ```typ
@@ -218,7 +227,7 @@ You can directly re-apply to change the numbering style, for example, to create 
   fig-outline: "I.a.1",
   fig-color: blue,
   eq-depth: 3,
-  eq-outline: "I.a.1",
+  eq-outline: "(I.a.1)",
   eq-color: red,
 )
 ```
@@ -228,7 +237,7 @@ You can directly re-apply to change the numbering style, for example, to create 
   caption: [This is a placeholder image],
 )
 
-= section
+= Appendix
 
 == subsection
 
