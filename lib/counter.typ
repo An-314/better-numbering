@@ -7,7 +7,7 @@
   numbering(outline, ..nums.slice(0, depth), s)
 }
 
-#let generate-counter(counter-depth, it, outline: "1.1", loc: none) = context {
+#let generate-counter(counter-depth, it, outline, loc: none) = context {
   let loc = if loc == none { here() } else { loc }
   let s = int(it)
   if counter-depth == 3 {

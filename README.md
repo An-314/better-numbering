@@ -14,7 +14,7 @@ This package provides consistent figure/table/raw + equation + custom figure.kin
 ## Quick start
 
 ```typst
-#import "@preview/ratchet:0.0.1": *
+#import "@preview/ratchet:0.0.2": *
 
 #show: ratchet.with(
   fig-depth: 2,
