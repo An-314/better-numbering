@@ -59,6 +59,7 @@
       for k in reset-figure-kinds { counter(figure.where(kind: k)).update(0) }
       counter(math.equation).update(0)
     }
+    v(0em)
   }
 
   show heading.where(level: 1, outlined: true): it => context {
