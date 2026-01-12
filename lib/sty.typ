@@ -41,7 +41,7 @@
 ) = {
   let is-active = () => active == none or active()
 
-  hide(context {
+  context {
     if is-active() {
       if init == "reset" {
         chap-counter.update((..) => (offset, 0, 0))
@@ -59,7 +59,7 @@
       for k in reset-figure-kinds { counter(figure.where(kind: k)).update(0) }
       counter(math.equation).update(0)
     }
-  })
+  }
 
   show heading.where(level: 1, outlined: true): it => context {
     if not is-active() { it } else {

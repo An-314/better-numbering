@@ -136,7 +136,7 @@
 
   // Anchor (guard + cfg) into the document flow, otherwise the updates can be skipped
   // during iterative layout / introspection passes.
-  hide(context {
+  context {
     _bn-guard.update(session)
     _bn-cfg.update((
       fig-depth: fig-depth,
@@ -146,7 +146,7 @@
       eq-outline: eq-outline,
       eq-color: eq-color,
     ))
-  })
+  }
 
   // Only the newest session at the current location should act.
   let active = () => _bn-guard.get() == session
